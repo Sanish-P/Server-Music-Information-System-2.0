@@ -7,12 +7,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.Sanish.json.view.View;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 @Table(name = "tbl_Audio")
+@JsonIgnoreProperties("track")
 public class Audio {
 	
     @Id
     @Column(name = "audio_id")
+    @JsonView(View.Summary.class)
     private Integer audioId;
     
     

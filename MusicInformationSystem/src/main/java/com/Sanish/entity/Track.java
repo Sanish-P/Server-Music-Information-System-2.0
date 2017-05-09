@@ -6,8 +6,13 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.Sanish.json.view.View;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 @Table(name = "tbl_Track")
+@JsonIgnoreProperties("audio")
 public class Track {
 	
 	@Id
@@ -15,6 +20,7 @@ public class Track {
 	private Integer trackId;
 
 	@Column(name = "track_title")
+	@JsonView(View.Summary.class)
 	private String trackTitle;
 	
 	@Column(name = "track_source")
@@ -24,6 +30,7 @@ public class Track {
 	private String streamURL="http://192.168.1.101:8081/listen/";
 	
 	@Column(name = "track_album_art_url")
+	@JsonView(View.Summary.class)
 	private String albumArtURL;
 	
 	@Column(name = "track_artist")
