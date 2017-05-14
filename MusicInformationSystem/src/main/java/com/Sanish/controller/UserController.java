@@ -1,5 +1,8 @@
 package com.Sanish.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.Sanish.dao.UserDAO;
 import com.Sanish.entity.User;
+import com.Sanish.json.view.View;
+import com.fasterxml.jackson.annotation.JsonView;
 
 @CrossOrigin
 @RestController
@@ -30,6 +36,7 @@ public class UserController {
 	UserDAO userDAO;
 
 	@RequestMapping(method = RequestMethod.GET)
+	@JsonView(View.Summary.class)
 	public List<User> getAll(){
 		
 		
@@ -46,16 +53,27 @@ public class UserController {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public User insertUser(
-			@RequestParam int userId,
 			@RequestParam String username,
             @RequestParam String password,
             @RequestParam String firstname,
             @RequestParam String lastname,
-            @RequestParam String role
+            @RequestParam String role,
+            @RequestParam String email
 	){
 		
-		User user = new User(username,password,firstname,lastname,role);
+		User user = new User(username,password,firstname,lastname,role,email);
 		
+		List<User> users = userDAO.getByUsername(username);
+		
+		if(!users.isEmpty()){
+			for(User existingUser : users){
+				
+				if(existingUser.getUsername().equals(username)
+						&& existingUser.getPassword().equals(password))
+					return new User();
+				
+			}
+		}
 		userDAO.insert(user);
 		
 		return user;
@@ -63,20 +81,34 @@ public class UserController {
 	}
 	
 	
-	@RequestMapping(value="/{id}",method={RequestMethod.PUT})
+	@RequestMapping(value="/update",method={RequestMethod.POST})
 	public User updateTrack(
-			@PathVariable("id") int userId,
-			@RequestParam String username,
-            @RequestParam String password,
-            @RequestParam String firstname,
-            @RequestParam String lastname
-	){
+			@RequestParam String oldUsername,
+            @RequestParam String oldPassword,
+            @RequestParam String newUsername,
+            @RequestParam String newPassword
+	) {
+		List<User> users = userDAO.getByUsername(oldUsername);
 		
-		User user = new User(userId,username,password,firstname,lastname);
+		if(!users.isEmpty()){
+			for(User existingUser : users){
+				
+				if(existingUser.getUsername().equals(oldUsername)
+						&& existingUser.getPassword().equals(oldPassword)){
+					
+					existingUser.setPassword(newPassword);
+					existingUser.setUsername(newUsername);
+					
+					userDAO.update(existingUser);
+					
+					return existingUser;
+				}
+					
+				
+			}
+		}
 		
-		userDAO.update(user);
-		
-		return user;
+		return new User();
 	}
 	
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

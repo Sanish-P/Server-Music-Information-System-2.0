@@ -14,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 @Table(name = "tbl_Track")
-@JsonIgnoreProperties("audio")
 public class Track {
 	
 	@Id
@@ -41,6 +40,7 @@ public class Track {
 	@JsonView(View.Summary.class)
 	private String artist;
 	
+	@JsonView(View.Summary.class)
 	@OneToOne(mappedBy = "track")
 	private Audio audio;
 	
@@ -152,7 +152,7 @@ public class Track {
 	public void setAudio(Audio audio) {
 		this.audio = audio;
 	}
-
+	
 
 
 	@Override
