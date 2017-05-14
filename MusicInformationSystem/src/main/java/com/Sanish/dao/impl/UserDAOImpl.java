@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -91,6 +92,25 @@ public class UserDAOImpl implements UserDAO{
 		session =sessionFactory.openSession();
 		
 		List<User> users = session.createQuery(hql).list();
+		
+		System.out.println(users);
+		
+		session.close();
+		
+		return users;
+	}
+
+	public List<User> getByUsername(String username) {
+		
+		String hql = "FROM User user WHERE user.username =:username";
+		
+		session = sessionFactory.openSession();
+		
+		Query query = session.createQuery(hql);
+		
+		query.setParameter("username", username);
+		
+		List<User> users = query.list();
 		
 		session.close();
 		

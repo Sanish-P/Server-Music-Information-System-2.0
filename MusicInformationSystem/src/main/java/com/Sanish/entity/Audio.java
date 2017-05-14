@@ -2,6 +2,8 @@ package com.Sanish.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -17,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 public class Audio {
 	
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "audio_id")
     @JsonView(View.Summary.class)
     private Integer audioId;
@@ -62,6 +65,17 @@ public class Audio {
 
 	public Audio() {
 		
+	}
+	
+
+	public Audio(double audioBpm, double audioDancebility, double audioEnergy, double audioLoudness,
+			Double lyricsValence, Double lyricsArousal) {
+		this.audioBpm = audioBpm;
+		this.audioDancebility = audioDancebility;
+		this.audioEnergy = audioEnergy;
+		this.audioLoudness = audioLoudness;
+		this.lyricsValence = lyricsValence;
+		this.lyricsArousal = lyricsArousal;
 	}
 
 	public Integer getAudioId() {

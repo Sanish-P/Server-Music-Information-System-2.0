@@ -2,6 +2,8 @@ package com.Sanish.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -16,7 +18,9 @@ import com.fasterxml.jackson.annotation.JsonView;
 public class Track {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "track_id")
+	@JsonView(View.Summary.class)
 	private Integer trackId;
 
 	@Column(name = "track_title")
@@ -27,13 +31,14 @@ public class Track {
 	private String trackSource;
 	
 	@Column(name = "track_stream_url")
-	private String streamURL="http://192.168.1.101:8081/listen/";
+	private String streamURL="http://localhost:8081/listen/";
 	
 	@Column(name = "track_album_art_url")
 	@JsonView(View.Summary.class)
 	private String albumArtURL;
 	
 	@Column(name = "track_artist")
+	@JsonView(View.Summary.class)
 	private String artist;
 	
 	@OneToOne(mappedBy = "track")
@@ -52,14 +57,13 @@ public class Track {
 	}
 	
 
-	public Track(Integer trackId, String trackTitle, String trackSource, String artist) {
-		this.trackId = trackId;
+	public Track(String trackTitle, String trackSource, String artist) {
+	
 		this.trackTitle = trackTitle;
 		this.trackSource = trackSource;
 		this.artist = artist;
 	}
-
-
+	
 	public Track(){
 		
 		

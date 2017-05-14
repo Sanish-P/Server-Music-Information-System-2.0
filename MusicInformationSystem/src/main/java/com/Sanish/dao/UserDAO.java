@@ -10,6 +10,7 @@ public interface UserDAO {
 	User getById(int id);
 	int update(User user);
 	int delete(User user);
+	List<User> getByUsername(String username);
 	
 	List<User> getAll();
 

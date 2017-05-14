@@ -29,13 +29,13 @@ public class TrackDAOImpl implements TrackDAO {
 		
 		trans = session.beginTransaction();
 		
-		session.save(track);
+		int id = (Integer) session.save(track);
 		
 		trans.commit();
 		
 		session.close();
 		
-		return 1;
+		return id;
 		
 	}
 
