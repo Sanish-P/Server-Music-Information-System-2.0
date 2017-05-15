@@ -85,8 +85,6 @@ public class TrackController {
 		Track detailTrack = JSONHelper.getTrackDetails(URLHelper.get(track));
 
         track.setAlbumArtURL(detailTrack.getAlbumArtURL());
-
-        track.setStreamURL(detailTrack.getStreamURL());
         
 		int generatedId = trackDAO.insert(track);
 		
@@ -155,5 +153,31 @@ public class TrackController {
         
         return recomTrackList;
     	
+    }
+    
+    @RequestMapping(value="/update",method = RequestMethod.POST)
+    public Track update(
+    		@RequestParam int id,
+    		@RequestParam String trackTitle,
+    		@RequestParam String artist,
+    		@RequestParam MultipartFile trackSource
+    		){
+    	
+    		
+    		Track track = trackDAO.getById(id);
+    		
+    		track.setArtist(artist);
+    		
+    		track.setTrackTitle(trackTitle);
+    		
+    		track.setTrackSource(trackSource.getOriginalFilename());
+    		
+    		Track detailTrack = JSONHelper.getTrackDetails(URLHelper.get(track));
+
+            track.setAlbumArtURL(detailTrack.getAlbumArtURL());
+    		
+    		trackDAO.update(track);
+    	
+    		return track;
     }
 }
