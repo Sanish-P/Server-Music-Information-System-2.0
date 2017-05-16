@@ -48,6 +48,7 @@ public class TrackController {
 	@Autowired
 	AudioDAO audioDAO;
 	
+	static String UPLOAD_PATH = "/home/gandoff/Documents/nodejsProjects/songs/";//PATH to songs folder
 	
 	@RequestMapping(method = {RequestMethod.GET})
 	@JsonView(View.Summary.class)
@@ -71,7 +72,7 @@ public class TrackController {
 			@RequestParam String artist){
 		
 		try {
-			trackSource.transferTo(new File("/home/gandoff/Documents/nodejsProjects/songs/"+trackSource.getOriginalFilename()));
+			trackSource.transferTo(new File(UPLOAD_PATH+trackSource.getOriginalFilename()));
 		} catch (IllegalStateException e) {
 			
 			e.printStackTrace();
@@ -163,6 +164,16 @@ public class TrackController {
     		@RequestParam MultipartFile trackSource
     		){
     	
+			try {
+				trackSource.transferTo(new File(UPLOAD_PATH+trackSource.getOriginalFilename()));
+			} catch (IllegalStateException e) {
+				
+				e.printStackTrace();
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+	    	
     		
     		Track track = trackDAO.getById(id);
     		
