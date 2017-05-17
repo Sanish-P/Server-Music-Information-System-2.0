@@ -7,7 +7,5 @@ The StreamServer is responsible for streaming the mp3.The mp3 is streamed using 
 Please follow the following steps to get started
 
 Change the UPLOAD_PATH in track controller to absolute path to songs in StreamServer folder.
-
 Add the database MusicInformationServer.sql to xampp.
-
 Run the two servers like in the demo video.
