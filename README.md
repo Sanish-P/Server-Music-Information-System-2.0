@@ -1,7 +1,7 @@
 # Server-Music-Information-System-2.0
 The server works similar to Server-Music-Information-System. But all configurations have been shifted to annotations
 
-The StreamServer is responsible for streaming the mp3.The mp3 is streamed using expressMp3Server built using node's express module and using a single get method to stream the mp3 through the requested URL. The get method applies the proper header to the response and reads the mp3 file into a read stream and pipes it to the request.
+The StreamServer is responsible for streaming the mp3.The mp3 is streamed using expressMp3Server built using node's express module and using a single get method to stream the mp3 through the requested URL. The get method applies the proper header to the response and creates a read stream of mp3 file and pipes it to the response.
 
 # Getting Started
 
